@@ -26,7 +26,7 @@ export function GuessHistoryTable({
       </div>
 
       <div className="min-w-max rounded-xl border border-border/70 bg-black/30 p-3 shadow-inner">
-        <div className="mb-2 flex gap-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+        <div className="mb-2 flex gap-2 px-1.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
           <div className="w-28 text-center">Language</div>
           <div className="w-24 text-center">Year</div>
           <div className="w-32 text-center">Paradigm</div>
@@ -41,20 +41,18 @@ export function GuessHistoryTable({
               className="flex min-w-max gap-2 rounded-lg bg-background/40 p-1.5 text-center shadow-sm animate-in fade-in zoom-in-95"
             >
               <div
-                className={`flex w-28 items-center justify-center rounded-md px-2 py-1.5 ${
-                  guess.name === dailyLanguage.name
-                    ? 'bg-emerald-500/80 text-black'
-                    : 'bg-destructive/80 text-black'
-                }`}
+                className={`flex w-28 items-center justify-center rounded-md px-2 py-1.5 ${guess.name === dailyLanguage.name
+                  ? 'bg-emerald-500/80 text-black'
+                  : 'bg-destructive/80 text-black'
+                  }`}
               >
                 {guess.name}
               </div>
               <div
-                className={`flex w-24 flex-col items-center justify-center rounded-md px-2 py-1.5 ${
-                  guess.releaseYear === dailyLanguage.releaseYear
-                    ? 'bg-emerald-500/80 text-black'
-                    : 'bg-destructive/80 text-black'
-                }`}
+                className={`flex w-24 flex-col items-center justify-center rounded-md px-2 py-1.5 ${guess.releaseYear === dailyLanguage.releaseYear
+                  ? 'bg-emerald-500/80 text-black'
+                  : 'bg-destructive/80 text-black'
+                  }`}
               >
                 <span>{guess.releaseYear}</span>
                 {guess.releaseYear > dailyLanguage.releaseYear && (
@@ -65,29 +63,26 @@ export function GuessHistoryTable({
                 )}
               </div>
               <div
-                className={`flex w-32 items-center justify-center rounded-md px-2 py-1.5 ${
-                  guess.paradigm === dailyLanguage.paradigm
-                    ? 'bg-emerald-500/80 text-black'
-                    : 'bg-destructive/80 text-black'
-                }`}
+                className={`flex w-32 items-center justify-center rounded-md px-2 py-1.5 ${guess.paradigm === dailyLanguage.paradigm
+                  ? 'bg-emerald-500/80 text-black'
+                  : 'bg-destructive/80 text-black'
+                  }`}
               >
                 {guess.paradigm}
               </div>
               <div
-                className={`flex w-32 items-center justify-center rounded-md px-2 py-1.5 ${
-                  guess.typing === dailyLanguage.typing
-                    ? 'bg-emerald-500/80 text-black'
-                    : 'bg-destructive/80 text-black'
-                }`}
+                className={`flex w-32 items-center justify-center rounded-md px-2 py-1.5 ${guess.typing === dailyLanguage.typing
+                  ? 'bg-emerald-500/80 text-black'
+                  : 'bg-destructive/80 text-black'
+                  }`}
               >
                 {guess.typing}
               </div>
               <div
-                className={`flex w-24 items-center justify-center rounded-md px-2 py-1.5 ${
-                  guess.isCompiled === dailyLanguage.isCompiled
-                    ? 'bg-emerald-500/80 text-black'
-                    : 'bg-destructive/80 text-black'
-                }`}
+                className={`flex w-24 items-center justify-center rounded-md px-2 py-1.5 ${guess.isCompiled === dailyLanguage.isCompiled
+                  ? 'bg-emerald-500/80 text-black'
+                  : 'bg-destructive/80 text-black'
+                  }`}
               >
                 {guess.isCompiled ? 'Yes' : 'No'}
               </div>

@@ -17,6 +17,7 @@ export default function GameBoard() {
   const [hasHydrated, setHasHydrated] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<string>('');
 
   useEffect(() => {
     const unsub = useGameStore.persist.onFinishHydration(() => {
@@ -27,6 +28,26 @@ export default function GameBoard() {
     }
 
     return unsub;
+  }, []);
+
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date();
+      const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const diff = midnight.getTime() - now.getTime();
+
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setTimeLeft(
+        `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+      );
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -74,6 +95,10 @@ export default function GameBoard() {
               Congratulations! You guessed the language!
             </div>
           )}
+
+          <div className="text-center text-sm text-muted-foreground">
+            Next language in: <span className="font-mono font-medium text-foreground">{timeLeft || '--:--:--'}</span>
+          </div>
         </div>
 
         <div className="order-2 md:order-1">

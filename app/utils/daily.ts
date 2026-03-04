@@ -8,8 +8,12 @@ export function getTodayString(): string {
 
 export function getDailyLanguage(): ProgrammingLanguage {
   const today = new Date();
-  const midnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const daysSinceEpoch = Math.floor(midnight.getTime() / 86400000);
-  const index = daysSinceEpoch % LANGUAGES.length;
+
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+
+  const pseudoRandom = Math.abs(Math.sin(seed) * 10000);
+
+  const index = Math.floor(pseudoRandom) % LANGUAGES.length;
+
   return LANGUAGES[index];
 }

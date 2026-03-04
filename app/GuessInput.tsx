@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react';
-import type { ProgrammingLanguage } from './data/languages';
+import type { BasicProgrammingLanguage } from './data/languages';
 
 interface GuessInputProps {
   searchTerm: string;
@@ -9,8 +9,8 @@ interface GuessInputProps {
   isDropdownOpen: boolean;
   setIsDropdownOpen: (value: boolean) => void;
   isWon: boolean;
-  availableLanguages: ProgrammingLanguage[];
-  onGuess: (language: ProgrammingLanguage) => void;
+  availableLanguages: BasicProgrammingLanguage[];
+  onGuess: (language: BasicProgrammingLanguage) => void;
 }
 
 export function GuessInput({

@@ -15,6 +15,8 @@ export interface ProgrammingLanguage {
   snippets: string[];
 }
 
+export type BasicProgrammingLanguage = Omit<ProgrammingLanguage, 'snippets'>;
+
 export const LANGUAGES: ProgrammingLanguage[] = [
   {
     id: 'python',
@@ -134,7 +136,7 @@ export const LANGUAGES: ProgrammingLanguage[] = [
     releaseYear: 2009,
     paradigm: 'Multi-paradigm',
     typing: 'Static Strong',
-    level: 'High-level', 
+    level: 'High-level',
     isCompiled: true,
     snippets: [
       `ch := make(chan int)\ngo func() {\n    ch <- 42\n}()\nvalue := <-ch`,

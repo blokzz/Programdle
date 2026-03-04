@@ -1,10 +1,10 @@
 'use client'
 
 import { HelpCircle } from 'lucide-react';
-import type { ProgrammingLanguage } from './data/languages';
+import type { ProgrammingLanguage, BasicProgrammingLanguage } from './data/languages';
 
 interface GuessHistoryTableProps {
-  guesses: ProgrammingLanguage[];
+  guesses: BasicProgrammingLanguage[];
   dailyLanguage: ProgrammingLanguage;
 }
 

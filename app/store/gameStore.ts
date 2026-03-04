@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { StateStorage } from 'zustand/middleware';
-import type { ProgrammingLanguage } from '../data/languages';
+import type { BasicProgrammingLanguage } from '../data/languages';
 import { getTodayString } from '../utils/daily';
 
 const STORAGE_KEY = 'programmdle-game';
@@ -38,9 +38,9 @@ const dailyAwareStorage: StateStorage = {
 };
 
 interface GameState {
-  guesses: ProgrammingLanguage[];
+  guesses: BasicProgrammingLanguage[];
   date?: string;
-  addGuess: (language: ProgrammingLanguage) => void;
+  addGuess: (language: BasicProgrammingLanguage) => void;
   reset: () => void;
 }
 

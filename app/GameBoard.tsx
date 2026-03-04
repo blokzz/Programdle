@@ -1,20 +1,22 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { LANGUAGES, type ProgrammingLanguage } from './data/languages';
+import type { ProgrammingLanguage, BasicProgrammingLanguage } from './data/languages';
 import { GameHeader } from './GameHeader';
 import { CodeHints } from './CodeHints';
 import { GuessInput } from './GuessInput';
 import { GuessHistoryTable } from './GuessHistoryTable';
 import { useGameStore } from './store/gameStore';
-import { getDailyLanguage } from './utils/daily';
 
 export default function GameBoard() {
   const [dailyLanguage, setDailyLanguage] = useState<ProgrammingLanguage | null>(null);
+  const [allLanguages, setAllLanguages] = useState<BasicProgrammingLanguage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const guesses = useGameStore((state) => state.guesses);
   const addGuess = useGameStore((state) => state.addGuess);
-
   const [hasHydrated, setHasHydrated] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState<string>('');
@@ -26,7 +28,6 @@ export default function GameBoard() {
     if (useGameStore.persist.hasHydrated()) {
       setHasHydrated(true);
     }
-
     return unsub;
   }, []);
 
@@ -51,35 +52,59 @@ export default function GameBoard() {
   }, []);
 
   useEffect(() => {
-    setDailyLanguage(getDailyLanguage());
+    const fetchData = async () => {
+      try {
+        const [dailyRes, langsRes] = await Promise.all([
+          fetch('/api/daily'),
+          fetch('/api/languages')
+        ]);
+
+        const dailyData = await dailyRes.json();
+        const langsData = await langsRes.json();
+
+        setDailyLanguage(dailyData);
+        setAllLanguages(langsData);
+      } catch (error) {
+        console.error("Błąd pobierania danych z API:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleGuess = (guessedLang: ProgrammingLanguage) => {
+  const handleGuess = (guessedLang: BasicProgrammingLanguage) => {
     addGuess(guessedLang);
     setSearchTerm('');
     setIsDropdownOpen(false);
   };
 
-  const availableLanguages = LANGUAGES.filter(
+  if (!hasHydrated || isLoading || !dailyLanguage) {
+    return (
+      <div className="flex justify-center items-center p-20">
+        <div className="text-xl font-semibold text-muted-foreground animate-pulse">
+          Ładowanie dzisiejszego wyzwania...
+        </div>
+      </div>
+    );
+  }
+
+  const availableLanguages = allLanguages.filter(
     (lang) =>
       !guesses.some((g) => g.id === lang.id) &&
       lang.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-  if (!dailyLanguage) return <div className="text-center p-10 text-white">Ładowanie dzisiejszego wyzwania...</div>;
+
   const visibleSnippetsCount = Math.min(guesses.length + 1, dailyLanguage.snippets.length);
-
   const isWon = guesses.length > 0 && guesses[0].id === dailyLanguage.id;
-
-  if (!hasHydrated) {
-    return null;
-  }
 
   return (
     <section className="w-full max-w-4xl rounded-2xl bg-card/60 p-4 md:p-6 shadow-xl ring-1 ring-border backdrop-blur animate-in fade-in zoom-in-95 duration-300">
       <GameHeader />
 
       <div className="mt-4 grid items-stretch gap-6 md:gap-8 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-        <div className="order-1 md:order-2 space-y-4">
+        <div className="order-2 md:order-2 space-y-4">
           <GuessInput
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
@@ -91,7 +116,7 @@ export default function GameBoard() {
           />
 
           {isWon && (
-            <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-center text-sm font-medium text-emerald-300 shadow-sm">
+            <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-center text-sm font-medium text-emerald-300 shadow-sm animate-in fade-in slide-in-from-top-2">
               Congratulations! You guessed the language!
             </div>
           )}
@@ -101,7 +126,7 @@ export default function GameBoard() {
           </div>
         </div>
 
-        <div className="order-2 md:order-1">
+        <div className="order-1 md:order-1">
           <CodeHints
             language={dailyLanguage}
             visibleSnippetsCount={visibleSnippetsCount}

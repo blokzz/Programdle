@@ -1,5 +1,6 @@
 'use client'
 
+import { HelpCircle } from 'lucide-react';
 import type { ProgrammingLanguage } from './data/languages';
 
 interface GuessHistoryTableProps {
@@ -27,11 +28,17 @@ export function GuessHistoryTable({
 
       <div className="min-w-max rounded-xl border border-border/70 bg-black/30 p-3 shadow-inner">
         <div className="mb-2 flex gap-2 px-1.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-          <div className="w-28 text-center">Language</div>
-          <div className="w-24 text-center">Year</div>
-          <div className="w-32 text-center">Paradigm</div>
-          <div className="w-32 text-center">Typing</div>
-          <div className="w-24 text-center">Compiled?</div>
+          <div className="flex w-28 items-center justify-center text-center">Language</div>
+          <div className="flex w-24 items-center justify-center text-center">Year</div>
+          <div className="flex w-32 cursor-help items-center justify-center gap-1 text-center" title="The style or way the language is written (e.g., Object-Oriented, Functional)">
+            Paradigm
+            <HelpCircle className="h-3.5 w-3.5 text-muted-foreground/70 transition-colors hover:text-foreground" />
+          </div>
+          <div className="flex w-32 cursor-help items-center justify-center gap-1 text-center" title="How the language handles data types (e.g., Static checks types before running, Dynamic checks while running)">
+            Typing
+            <HelpCircle className="h-3.5 w-3.5 text-muted-foreground/70 transition-colors hover:text-foreground" />
+          </div>
+          <div className="flex w-24 items-center justify-center text-center">Compiled?</div>
         </div>
 
         <div className="space-y-1.5 text-sm font-medium text-foreground">

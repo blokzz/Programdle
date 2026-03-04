@@ -825,5 +825,162 @@ export const LANGUAGES: LanguageData[] = [
         `print("Hello, World!")`
       ]
     ]
+  },
+  {
+    id: 'dart',
+    name: 'Dart',
+    releaseYear: 2011,
+    paradigm: 'Object-oriented',
+    typing: 'Static Strong',
+    level: 'High-level',
+    isCompiled: true,
+    snippets: [
+      [
+        `Stream<int> countStream(int to) async* {\n  for (int i = 1; i <= to; i++) {\n    yield i;\n  }\n}`,
+        `factory Logger(String name) {\n  return _cache.putIfAbsent(name, () => Logger._internal(name));\n}`,
+        `Isolate.spawn(echo, receivePort.sendPort);`
+      ],
+      [
+        `Future<void> fetchUserOrder() async {\n  var order = await fetchOrder();\n  print(order);\n}`,
+        `class Point {\n  double x, y;\n  Point(this.x, this.y);\n}`,
+        `final names = <String>['Seth', 'Kathy'];`
+      ],
+      [
+        `print('Hello, World!');`,
+        `void main() {\n  print('Hi');\n}`,
+        `var msg = 'Hello';\nprint(msg);`
+      ]
+    ]
+  },
+  {
+    id: 'perl',
+    name: 'Perl',
+    releaseYear: 1987,
+    paradigm: 'Multi-paradigm',
+    typing: 'Dynamic Weak',
+    level: 'High-level',
+    isCompiled: false,
+    snippets: [
+      [
+        `tie my %hash, 'Tie::StdHash';`,
+        `$str =~ s/foo(.*?)/bar$1/ig;`,
+        `BEGIN { print "Starting up\\n" }\nEND { print "Shutting down\\n" }`
+      ],
+      [
+        `open(my $fh, '<', "file.txt") or die "Cannot open: $!";\nwhile (my $row = <$fh>) { chomp $row; }`,
+        `my @array = (1, 2, 3);\npush(@array, 4);`,
+        `sub add {\n  my ($a, $b) = @_;\n  return $a + $b;\n}`
+      ],
+      [
+        `print "Hello, World!\\n";`,
+        `say "Hello, World!";`,
+        `my $msg = "Hello";\nprint $msg;`
+      ]
+    ]
+  },
+  {
+    id: 'matlab',
+    name: 'MATLAB',
+    releaseYear: 1984,
+    paradigm: 'Multi-paradigm',
+    typing: 'Dynamic Weak',
+    level: 'High-level',
+    isCompiled: false,
+    snippets: [
+      [
+        `[V,D] = eig(A);\nidx = diag(D) > 0;\nV_pos = V(:,idx);`,
+        `f = @(x,y) x.^2 + y.^2;\nq = integral2(f,0,1,0,1);`,
+        `plot3(X,Y,Z,'LineStyle','none','Marker','o');`
+      ],
+      [
+        `A = [1 2 3; 4 5 6; 7 8 9];\nB = A';`,
+        `function y = square(x)\n  y = x.^2;\nend`,
+        `for i = 1:10\n  disp(i);\nend`
+      ],
+      [
+        `disp('Hello, World!')`,
+        `fprintf('Hello, World!\\n')`,
+        `msg = 'Hello';\ndisp(msg)`
+      ]
+    ]
+  },
+  {
+    id: 'visual-basic',
+    name: 'Visual Basic',
+    releaseYear: 1991,
+    paradigm: 'Object-oriented',
+    typing: 'Static Strong',
+    level: 'High-level',
+    isCompiled: true,
+    snippets: [
+      [
+        `Dim query = From cust In customers\n            Where cust.City = "London"\n            Select cust.Name`,
+        `AddHandler myButton.Click, AddressOf MyButton_Click`,
+        `<Obsolete("Use NewMethod instead.")>\nPublic Sub OldMethod()`
+      ],
+      [
+        `Public Property Name As String`,
+        `For i As Integer = 1 To 10\n  Console.WriteLine(i)\nNext`,
+        `Try\n  Dim x = 1 / 0\nCatch ex As Exception\n  Console.WriteLine(ex.Message)\nEnd Try`
+      ],
+      [
+        `Console.WriteLine("Hello, World!")`,
+        `MsgBox("Hello, World!")`,
+        `Module Program\n  Sub Main()\n    Console.WriteLine("Hi")\n  End Sub\nEnd Module`
+      ]
+    ]
+  },
+  {
+    id: 'zig',
+    name: 'Zig',
+    releaseYear: 2016,
+    paradigm: 'Procedural',
+    typing: 'Static Strong',
+    level: 'Low-level',
+    isCompiled: true,
+    snippets: [
+      [
+        `pub fn LinkedList(comptime T: type) type {\n    return struct {\n        pub const Node = struct { next: ?*Node, data: T };\n    };\n}`,
+        `var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);\ndefer arena.deinit();`,
+        `const aligned_ptr = @alignCast(@alignOf(u32), ptr);`
+      ],
+      [
+        `if (optional_value) |val| {\n    try stdout.print("value: {d}\\n", .{val});\n}`,
+        `const Point = struct {\n    x: f32,\n    y: f32,\n};`,
+        `for (items) |value, i| {\n    std.debug.print("{d}: {d}\\n", .{i, value});\n}`
+      ],
+      [
+        `std.debug.print("Hello, World!\\n", .{});`,
+        `pub fn main() !void {\n    std.debug.print("Hello\\n", .{});\n}`,
+        `const msg = "Hello";\nstd.debug.print("{s}", .{msg});`
+      ]
+    ]
+  },
+  {
+    id: 'objective-c',
+    name: 'Objective-C',
+    releaseYear: 1984,
+    paradigm: 'Object-oriented',
+    typing: 'Static Weak',
+    level: 'High-level',
+    isCompiled: true,
+    snippets: [
+      [
+        `- (void)doSomethingWith:(NSString *)str andCallback:(void (^)(BOOL))completionBlock { ... }`,
+        `@property (nonatomic, strong) NSString *name;`,
+        `@interface MyClass : NSObject <MyProtocol>\n@end`
+      ],
+      [
+        `NSString *greeting = [NSString stringWithFormat:@"Hello, %@", name];`,
+        `[myObject performSelector:@selector(doSomething) withObject:nil];`,
+        `for (NSString *item in myArray) {\n    NSLog(@"%@", item);\n}`
+      ],
+      [
+        `NSLog(@"Hello, World!");`,
+        `int main(int argc, const char * argv[]) {\n    NSLog(@"Hi");\n}`,
+        `NSString *msg = @"Hello";\nNSLog(@"%@", msg);`
+      ]
+    ]
   }
+
 ];

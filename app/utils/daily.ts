@@ -15,5 +15,18 @@ export function getDailyLanguage(): ProgrammingLanguage {
 
   const index = Math.floor(pseudoRandom) % LANGUAGES.length;
 
-  return LANGUAGES[index];
+  const dailyLangData = LANGUAGES[index];
+
+  const level1Index = Math.floor(Math.abs(Math.sin(seed + 1) * 10000)) % 3;
+  const level2Index = Math.floor(Math.abs(Math.sin(seed + 2) * 10000)) % 3;
+  const level3Index = Math.floor(Math.abs(Math.sin(seed + 3) * 10000)) % 3;
+
+  return {
+    ...dailyLangData,
+    snippets: [
+      dailyLangData.snippets[0][level1Index],
+      dailyLangData.snippets[1][level2Index],
+      dailyLangData.snippets[2][level3Index]
+    ]
+  };
 }

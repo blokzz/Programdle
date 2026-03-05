@@ -65,7 +65,7 @@ export default function GameBoard() {
         setDailyLanguage(dailyData);
         setAllLanguages(langsData);
       } catch (error) {
-        console.error("Błąd pobierania danych z API:", error);
+        console.error("API Error:", error);
       } finally {
         setIsLoading(false);
       }
@@ -84,7 +84,7 @@ export default function GameBoard() {
     return (
       <div className="flex justify-center items-center p-20">
         <div className="text-xl font-semibold text-muted-foreground animate-pulse">
-          Ładowanie dzisiejszego wyzwania...
+          Loading today's challenge...
         </div>
       </div>
     );
@@ -116,14 +116,16 @@ export default function GameBoard() {
           />
 
           {isWon && (
-            <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-center text-sm font-medium text-emerald-300 shadow-sm animate-in fade-in slide-in-from-top-2">
-              Congratulations! You guessed the language!
-            </div>
+            <>
+              <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-center text-sm font-medium text-emerald-300 shadow-sm animate-in fade-in slide-in-from-top-2">
+                Congratulations! You guessed the language!
+              </div>
+              <div className="text-center text-sm text-muted-foreground">
+                Next language in: <span className="font-mono font-medium text-foreground">{timeLeft || '--:--:--'}</span>
+              </div>
+            </>
           )}
 
-          <div className="text-center text-sm text-muted-foreground">
-            Next language in: <span className="font-mono font-medium text-foreground">{timeLeft || '--:--:--'}</span>
-          </div>
         </div>
 
         <div className="order-1 md:order-1">

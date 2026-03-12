@@ -6,8 +6,8 @@ export function getTodayString(): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-export function getDailyLanguage(): ProgrammingLanguage {
-  const today = new Date();
+export function getDailyLanguage(targetDate?: Date): ProgrammingLanguage {
+  const today = targetDate || new Date();
 
   const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
 

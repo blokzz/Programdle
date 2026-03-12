@@ -9,6 +9,7 @@ import { GuessHistoryTable } from './GuessHistoryTable';
 import { useGameStore } from './store/gameStore';
 import { useStatsStore } from './store/statsStore';
 import { StatsModal } from './StatsModal';
+import { getTodayString } from './utils/daily';
 
 export default function GameBoard() {
   const [dailyLanguage, setDailyLanguage] = useState<ProgrammingLanguage | null>(null);
@@ -38,8 +39,15 @@ export default function GameBoard() {
   }, []);
 
   useEffect(() => {
+    const startDate = getTodayString();
+
     const updateTimer = () => {
       const now = new Date();
+      if (getTodayString() !== startDate) {
+        window.location.reload();
+        return;
+      }
+
       const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
       const diff = midnight.getTime() - now.getTime();
 
@@ -61,7 +69,7 @@ export default function GameBoard() {
     const fetchData = async () => {
       try {
         const [dailyRes, langsRes] = await Promise.all([
-          fetch('/api/daily'),
+          fetch(`/api/daily?date=${getTodayString()}`),
           fetch('/api/languages')
         ]);
 

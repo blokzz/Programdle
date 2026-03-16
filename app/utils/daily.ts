@@ -30,3 +30,16 @@ export function getDailyLanguage(targetDate?: Date): ProgrammingLanguage {
     ]
   };
 }
+
+export function getGameNumber(targetDate?: Date): number {
+  const startDate = new Date('2026-02-27T00:00:00');
+  const today = targetDate || new Date();
+
+  const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+  const current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  const diffTime = current.getTime() - start.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  return diffDays + 1;
+}

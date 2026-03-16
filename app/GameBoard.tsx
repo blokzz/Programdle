@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+import { Share2, Check } from 'lucide-react';
 import type { ProgrammingLanguage, BasicProgrammingLanguage } from './data/languages';
 import { GameHeader } from './GameHeader';
 import { CodeHints } from './CodeHints';
@@ -9,7 +10,7 @@ import { GuessHistoryTable } from './GuessHistoryTable';
 import { useGameStore } from './store/gameStore';
 import { useStatsStore } from './store/statsStore';
 import { StatsModal } from './StatsModal';
-import { getTodayString } from './utils/daily';
+import { getTodayString, getGameNumber } from './utils/daily';
 
 export default function GameBoard() {
   const [dailyLanguage, setDailyLanguage] = useState<ProgrammingLanguage | null>(null);
@@ -24,6 +25,7 @@ export default function GameBoard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const recordPlay = useStatsStore((state) => state.recordPlay);
   const recordWin = useStatsStore((state) => state.recordWin);
@@ -105,6 +107,31 @@ export default function GameBoard() {
     }
   };
 
+  const handleShare = () => {
+    if (!dailyLanguage) return;
+
+    const title = `Programdle #${getGameNumber()} - ${guesses.length}/6`;
+
+    const grid = guesses.map(guess => {
+      let row = "";
+      row += guess.name === dailyLanguage.name ? "🟩" : "🟥";
+      row += guess.releaseYear === dailyLanguage.releaseYear ? "🟩" : "🟥";
+      row += guess.paradigm === dailyLanguage.paradigm ? "🟩" : "🟥";
+      row += guess.typing === dailyLanguage.typing ? "🟩" : "🟥";
+      row += guess.isCompiled === dailyLanguage.isCompiled ? "🟩" : "🟥";
+      return row;
+    }).join("\n");
+
+    const textToShare = `${title}\n\n${grid}`;
+
+    navigator.clipboard.writeText(textToShare).then(() => {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    }).catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+  };
+
   if (!hasHydrated || isLoading || !dailyLanguage) {
     return (
       <div className="flex justify-center items-center p-20">
@@ -142,14 +169,33 @@ export default function GameBoard() {
           />
 
           {isWon && (
-            <>
-              <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-center text-sm font-medium text-emerald-300 shadow-sm animate-in fade-in slide-in-from-top-2">
+            <div className="flex flex-col gap-3 animate-in fade-in slide-in-from-top-2">
+              <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-center text-sm font-medium text-emerald-600 dark:text-emerald-300 shadow-sm">
                 Congratulations! You guessed the language!
               </div>
-              <div className="text-center text-sm text-muted-foreground">
-                Next language in: <span className="font-mono font-medium text-foreground">{timeLeft || '--:--:--'}</span>
+              <div className="flex items-center justify-between px-2">
+                <div className="text-sm text-muted-foreground">
+                  Next language: <span className="font-mono font-medium text-foreground">{timeLeft || '--:--:--'}</span>
+                </div>
+                <button
+                  onClick={handleShare}
+                  disabled={isCopied}
+                  className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-md transition-all hover:bg-primary/90 disabled:opacity-80 active:scale-95"
+                >
+                  {isCopied ? (
+                    <>
+                      <Check className="h-4 w-4" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="h-4 w-4" />
+                      Share Result
+                    </>
+                  )}
+                </button>
               </div>
-            </>
+            </div>
           )}
 
         </div>

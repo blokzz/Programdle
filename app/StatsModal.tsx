@@ -13,7 +13,17 @@ export function StatsModal({ isOpen, onClose }: StatsModalProps) {
 
     if (!isOpen) return null;
 
-    const maxDistribution = Math.max(...Object.values(stats.guessDistribution), 1);
+    const displayDistribution: Record<string, number> = { '1': 0, '2': 0, '3': 0, '4': 0, '5+': 0 };
+    Object.entries(stats.guessDistribution).forEach(([guessCountStr, frequency]) => {
+        const guessCount = parseInt(guessCountStr, 10);
+        if (guessCount >= 5) {
+            displayDistribution['5+'] += frequency;
+        } else if (guessCount > 0) {
+            displayDistribution[guessCount.toString()] += frequency;
+        }
+    });
+
+    const maxDistribution = Math.max(...Object.values(displayDistribution), 1);
     const winPercent = stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0;
 
     return (
@@ -59,20 +69,17 @@ export function StatsModal({ isOpen, onClose }: StatsModalProps) {
                         <div className="text-center text-sm text-muted-foreground w-full py-4 h-full flex items-center justify-center">No wins yet</div>
                     )}
                     {Object.entries(stats.guessDistribution).length > 0 &&
-                        Array.from(
-                            { length: Math.max(5, Math.max(...Object.keys(stats.guessDistribution).map(Number))) },
-                            (_, i) => i + 1
-                        ).map((guessCount) => {
-                            const frequency = stats.guessDistribution[guessCount] || 0;
+                        ['1', '2', '3', '4', '5+'].map((guessLabel) => {
+                            const frequency = displayDistribution[guessLabel] || 0;
                             const height = Math.max((frequency / maxDistribution) * 100, 5);
                             return (
-                                <div key={guessCount} className="flex flex-col items-center flex-1 h-full justify-end">
+                                <div key={guessLabel} className="flex flex-col items-center flex-1 h-full justify-end">
                                     <div className="text-xs mb-1 font-medium h-4">{frequency > 0 ? frequency : ''}</div>
                                     <div
                                         className={`w-full max-w-[2.5rem] rounded-t-sm transition-all duration-500 ease-out ${frequency > 0 ? 'bg-primary shadow-sm' : 'bg-muted/50'}`}
                                         style={{ height: `${frequency > 0 ? height : 5}%` }}
                                     ></div>
-                                    <div className="mt-2 text-xs font-medium text-muted-foreground">{guessCount}</div>
+                                    <div className="mt-2 text-xs font-medium text-muted-foreground">{guessLabel}</div>
                                 </div>
                             );
                         })}

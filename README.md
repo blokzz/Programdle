@@ -3,6 +3,10 @@
 A daily guessing game in the style of Wordle and Loldle, where the answer is a **programming language**.
 **[Play it live →](https://programdle.vercel.app)**
 
+<p align="center">
+  <img src="assets/demo.gif" alt="Programdle gameplay" width="600">
+</p>
+
 ## How to play
 
 1. A new language is picked every day. You see a code snippet written in it.
